@@ -1,10 +1,4 @@
-
 {% extends "onlinecourse/base.html" %}
-{% load static %}
-
-{% block title %}
-    {{ course.name }}
-{% endblock %}
 
 {% block content %}
 <div class="container mt-4">
@@ -14,7 +8,6 @@
             <p class="card-text">{{ course.description }}</p>
 
             <h2 class="mt-4">Lessons</h2>
-
             <div class="list-group">
                 {% for lesson in course.lesson_set.all %}
                     <div class="list-group-item">
@@ -23,7 +16,7 @@
                     </div>
                 {% empty %}
                     <div class="list-group-item">
-                        No lessons are available for this course yet.
+                        No lessons are available.
                     </div>
                 {% endfor %}
             </div>

@@ -58,7 +58,7 @@ class Lesson(models.Model):
     content = models.TextField()
 
     def __str__(self):
-        return f"{self.course.name}: {self.title}"
+        return f"Submission {self.id} for enrollment {self.enrollment.id}"
 
 
 class Enrollment(models.Model):

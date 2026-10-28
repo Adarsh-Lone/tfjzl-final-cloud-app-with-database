@@ -99,7 +99,7 @@ class Choice(models.Model):
     is_correct = models.BooleanField(default=False)
 
     def __str__(self):
-       return f"Submission for {self.enrollment}"
+        return self.choice_text
 
 
 class Submission(models.Model):
@@ -107,4 +107,4 @@ class Submission(models.Model):
     choices = models.ManyToManyField(Choice, blank=True)
 
     def __str__(self):
-        return "Submission " + str(self.id)
+        return f"Submission for {self.enrollment}"

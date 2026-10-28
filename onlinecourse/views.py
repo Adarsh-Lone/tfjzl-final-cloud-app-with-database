@@ -111,7 +111,7 @@ def submit(request, course_id):
     # Only save choices that belong to this course's questions.
     valid_choices = Choice.objects.filter(
         id__in=selected_ids,
-        question__lesson__course=course,
+        question__course=course,
     )
     submission.choices.set(valid_choices)
     return redirect('onlinecourse:show_exam_result', course_id=course.id,
@@ -132,17 +132,18 @@ def show_exam_result(request, course_id, submission_id):
     score = 0
     possible_score = 0
 
-    for lesson in course.lesson_set.all().order_by('order', 'id'):
-        for question in lesson.question_set.all().prefetch_related('choice_set'):
-            possible_score += question.grade
-            correct = question.is_get_score(selected_ids)
-            if correct:
-                score += question.grade
-            questions.append({
-                'question': question,
-                'choices': question.choice_set.all(),
-                'correct': correct,
-            })
+    for question in course.question_set.all().prefetch_related('choice_set'):
+    possible_score += question.grade
+    correct = question.is_get_score(selected_ids)
+
+    if correct:
+        score += question.grade
+
+    questions.append({
+        'question': question,
+        'choices': question.choice_set.all(),
+        'correct': correct,
+    })
 
     grade = round((score / possible_score) * 100) if possible_score else 0
     context = {
